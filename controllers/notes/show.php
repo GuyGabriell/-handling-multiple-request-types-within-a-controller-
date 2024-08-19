@@ -9,32 +9,31 @@ $config = require base_path('config.php');
 
 $db = new Database($config['database']);
 
-
-if ($_SERVER["REQUEST_METHOD"] === 'POST') {
-   //form was submitted delete the current note.
-    $db->query('delete from note where id = :id', [
-
-    ]);
-    
-}
-
-//dd($_SERVER);
-
-
 $currentUserId = 1;
 
 
-$note = $db->query('select * from notes where id = :id', [
+if ($_SERVER["REQUEST_METHOD"] === 'POST') {
+
+    //dd($_POST);
+
+   //form was submitted delete the current note.
+   $note = $db->query('select * from notes where id = :id', [
 
     'id' => $_GET['id']
 
-])->findOrFail();
+    ])->findOrFail();
 
 
-authorize($note['user_id'] === $currentUserId);
+    authorize($note['user_id'] === $currentUserId);
 
 
+    $db->query('delete from note where id = :id', [
+        'id' => $_GET['id']
+    ]);
 
+}
+
+//dd($_SERVER);
 
 view("notes/show.view.php", [
 
