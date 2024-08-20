@@ -9,7 +9,7 @@ $config = require base_path('config.php');
 
 $db = new Database($config['database']);
 
-
+// the userid was hardcoded because authentication has not been review yet.
 $currentUserId = 1;
 
 
